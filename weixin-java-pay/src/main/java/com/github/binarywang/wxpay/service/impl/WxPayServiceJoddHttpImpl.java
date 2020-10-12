@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import javax.net.ssl.SSLContext;
 
@@ -15,6 +16,7 @@ import jodd.http.ProxyInfo.ProxyType;
 import jodd.http.net.SSLSocketHttpConnectionProvider;
 import jodd.http.net.SocketHttpConnectionProvider;
 import jodd.util.Base64;
+import org.apache.http.client.methods.HttpPost;
 
 /**
  * 微信支付请求实现类，jodd-http实现.
@@ -59,6 +61,26 @@ public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
     }
   }
 
+  @Override
+  public String postV3(String url, String requestStr) throws WxPayException {
+    return null;
+  }
+
+  @Override
+  public String postV3WithWechatpaySerial(String url, String requestStr) throws WxPayException {
+    return null;
+  }
+
+  @Override
+  public String postV3(String url, HttpPost httpPost) throws WxPayException {
+    return null;
+  }
+
+  @Override
+  public String getV3(URI url) throws WxPayException {
+    return null;
+  }
+
   private HttpRequest buildHttpRequest(String url, String requestStr, boolean useKey) throws WxPayException {
     HttpRequest request = HttpRequest
       .post(url)
@@ -76,6 +98,10 @@ public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
     }
 
     if (StringUtils.isNotBlank(this.getConfig().getHttpProxyHost()) && this.getConfig().getHttpProxyPort() > 0) {
+      if (StringUtils.isEmpty(this.getConfig().getHttpProxyUsername())) {
+        this.getConfig().setHttpProxyUsername("whatever");
+      }
+
       ProxyInfo httpProxy = new ProxyInfo(ProxyType.HTTP, this.getConfig().getHttpProxyHost(), this.getConfig().getHttpProxyPort(),
         this.getConfig().getHttpProxyUsername(), this.getConfig().getHttpProxyPassword());
       HttpConnectionProvider provider = request.connectionProvider();
